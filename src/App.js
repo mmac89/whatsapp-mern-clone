@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+// import Router from 'react-router-dom';
+// import Switch from 'react-router';
+// import Route from 'react-router';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css';
 import Sidebar from './Sidebar'
 import Chat from './Chat'
@@ -40,8 +44,17 @@ function App() {
   return (
     <div className="app">
       <div className='app__body'>
-        <Sidebar />
-        <Chat messages={messages}/>
+        <Router>
+          <Switch>
+            <Route path= '/'>
+              <Sidebar />
+              <Chat messages={messages}/>
+            </Route>
+            <Route path='/app'>
+              <Sidebar/>
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </div>
   );

@@ -11,9 +11,10 @@
     "axios": "^0.20.0",
     "firebase": "^7.21.1",
     "pusher-js": "^7.0.0",
-    "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-router": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "react-router-dom": "5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
