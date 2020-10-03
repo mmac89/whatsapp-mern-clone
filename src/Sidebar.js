@@ -6,7 +6,8 @@ import './Sidebar.css'
 import SidebarChat from './SidebarChat'
 
 
-function Sidebar() {
+function Sidebar( { rooms } ) {
+
     return (
         <div className='sidebar'>
             <div className='sidebar__header'>
@@ -33,9 +34,9 @@ function Sidebar() {
 
             <div className='sidebar__chats'>
                 <SidebarChat addNewChat/>
-                <SidebarChat />
-                <SidebarChat />
-                <SidebarChat />
+                {rooms.map((room) => (
+                    <SidebarChat room={room} />
+                ))}
             </div>
 
         </div>

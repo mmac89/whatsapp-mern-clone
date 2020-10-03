@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import Router from 'react-router-dom';
-// import Switch from 'react-router';
-// import Route from 'react-router';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css';
 import Sidebar from './Sidebar'
@@ -39,6 +36,37 @@ function App() {
     
   }, [messages])
 
+  const[rooms, setRooms] = useState([]);
+
+  useEffect (() => {
+    axios.get('/rooms/sync')
+    .then(response => {
+      
+      setRooms(response.data);
+    })
+  }, [])
+
+
+  useEffect( () => {
+    
+    const pusher = new Pusher('119fa00b5b664f824337', {
+      cluster: 'us3'
+    });
+
+    const channel = pusher.subscribe('rooms');
+    channel.bind('inserted', (newRoom) => {
+      //alert(JSON.stringify(newMessage));
+      setRooms([...rooms, newRoom]);
+    });
+
+    return ()=>{
+      channel.unbind_all();
+      channel.unsubscribe();
+    }
+    
+  }, [rooms])
+
+
   //console.log(messages);
 
   return (
@@ -47,7 +75,7 @@ function App() {
         <Router>
           <Switch>
             <Route path= '/'>
-              <Sidebar />
+              <Sidebar rooms={rooms} />
               <Chat messages={messages}/>
             </Route>
             <Route path='/app'>
