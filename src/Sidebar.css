@@ -54,6 +54,14 @@
 .sidebar__chats {
     flex: 1;
     background-color: white;
-    /* overflow: scroll; */
+    overflow: scroll;
     
+}
+
+.sidebar__chats::-webkit-scrollbar {
+    display: none;
+}
+a:-webkit-any-link {
+    text-decoration:none ;
+    color: darkgray;
 }

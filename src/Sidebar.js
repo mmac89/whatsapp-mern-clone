@@ -2,11 +2,13 @@ import { Avatar, IconButton } from '@material-ui/core'
 import { Chat, DonutLarge, MoreVert } from '@material-ui/icons'
 import {SearchOutlined} from '@material-ui/icons'
 import React from 'react'
+// import { Link } from 'react-router-dom'
 import './Sidebar.css'
 import SidebarChat from './SidebarChat'
 
 
 function Sidebar( { rooms } ) {
+
 
     return (
         <div className='sidebar'>
@@ -33,10 +35,11 @@ function Sidebar( { rooms } ) {
             </div>
 
             <div className='sidebar__chats'>
-                <SidebarChat addNewChat/>
-                {rooms.map((room) => (
-                    <SidebarChat room={room} />
-                ))}
+                    <SidebarChat addNewChat/>
+                    {rooms.map((room) => (
+                        <SidebarChat room={room} roomId={room._id} />
+                    ))}
+        
             </div>
 
         </div>

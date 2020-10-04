@@ -43,6 +43,7 @@ function App() {
     .then(response => {
       
       setRooms(response.data);
+    
     })
   }, [])
 
@@ -66,7 +67,8 @@ function App() {
     
   }, [rooms])
 
-
+  
+  
   //console.log(messages);
 
   return (
@@ -74,13 +76,17 @@ function App() {
       <div className='app__body'>
         <Router>
           <Switch>
-            <Route path= '/'>
-              <Sidebar rooms={rooms} />
+            
+            <Route path="/">
+            <Sidebar rooms={rooms} />
+              {/* <Chat messages={messages}/> */}
+            </Route>
+
+            <Route path="/rooms/:roomId">
+             
               <Chat messages={messages}/>
             </Route>
-            <Route path='/app'>
-              <Sidebar/>
-            </Route>
+
           </Switch>
         </Router>
       </div>
