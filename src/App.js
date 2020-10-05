@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css';
 import Sidebar from './Sidebar'
 import Chat from './Chat'
@@ -76,16 +76,19 @@ function App() {
       <div className='app__body'>
         <Router>
           <Switch>
-            
-            <Route path="/">
-            <Sidebar rooms={rooms} />
-              {/* <Chat messages={messages}/> */}
-            </Route>
-
-            <Route path="/rooms/:roomId">
-             
+            <Route path="/"> 
+              <Sidebar rooms={rooms} />
               <Chat messages={messages}/>
             </Route>
+
+            <Route path="/rooms/:roomId" >
+              <Sidebar rooms={rooms} /> 
+              <Chat messages={messages}/>
+            </Route>
+
+            <Route path='/login'>
+              <h1>Please Login</h1>
+            </Route>  
 
           </Switch>
         </Router>

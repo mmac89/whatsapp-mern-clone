@@ -6,12 +6,15 @@ import { AttachFile, MoreVert, SearchOutlined} from '@material-ui/icons'
 import InsertEmoticonIcon  from '@material-ui/icons/InsertEmoticon'
 import MicIcon from '@material-ui/icons/Mic'
 import axios from './axios'
-// import {useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 
 function Chat( { messages } ) {
 
     const [input, setInput] = useState('');
+    const { roomId } = useParams();
+    const [roomName, setRoomName] = useState('');
+
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -32,12 +35,23 @@ function Chat( { messages } ) {
         setSeed(Math.floor(Math.random() *5000)) 
     }, [])
 
+    useEffect( () => {
+        if(roomId){
+            axios.get(`/getRoomName/${roomId}`)
+                .then(response => {
+                    setRoomName(response.data);
+                })
+        
+        }
+    }, [roomId])
+
+    console.log(roomName);
     return (
         <div className='chat'>
             <div className='chat__header'>
                 <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
                 <div className='chat__headerInfo'>
-                    <h3>Room Name</h3>
+                    <h3>{roomName}</h3>
                     <p>Last seen at ...</p>
                 </div>
 

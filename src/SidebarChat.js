@@ -7,7 +7,7 @@ import axios from './axios'
 function SidebarChat({ addNewChat, room, roomId }) {
 
     const roomClicked= () => {
-        alert('click')        
+        // alert('click')        
     }
 
     const [seed, setSeed] = useState('');
@@ -31,7 +31,7 @@ function SidebarChat({ addNewChat, room, roomId }) {
     
     
     return !addNewChat ? (
-        <Link to="/:roomId">
+        <Link to={`/rooms/${roomId}`}>
             <div className='sidebarChat'>
                 <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
                 <div className='sidebarChat__info' onClick={roomClicked}>
