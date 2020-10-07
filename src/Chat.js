@@ -6,14 +6,19 @@ import { AttachFile, MoreVert, SearchOutlined} from '@material-ui/icons'
 import InsertEmoticonIcon  from '@material-ui/icons/InsertEmoticon'
 import MicIcon from '@material-ui/icons/Mic'
 import axios from './axios'
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 function Chat( { messages } ) {
 
     const [input, setInput] = useState('');
-    const { roomId } = useParams();
+   
     const [roomName, setRoomName] = useState('');
+
+    const {roomId } =useParams();
+    console.log(roomId);
+
+
 
 
     const sendMessage = async (e) => {
@@ -30,22 +35,25 @@ function Chat( { messages } ) {
     }
 
     
+    
     const [seed, setSeed] =useState('');
     useEffect(() => {
         setSeed(Math.floor(Math.random() *5000)) 
     }, [])
 
     useEffect( () => {
-        if(roomId){
-            axios.get(`/getRoomName/${roomId}`)
-                .then(response => {
-                    setRoomName(response.data);
-                })
+
+        axios.get(`/getRoomName/${roomId}`)
+        .then(response => {
+            console.log(response);
+            setRoomName(response.data);
+        }).catch(() => {
+            alert('error retrieving data');
+        })
         
-        }
     }, [roomId])
 
-    console.log(roomName);
+
     return (
         <div className='chat'>
             <div className='chat__header'>

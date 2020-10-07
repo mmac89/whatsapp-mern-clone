@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './App.css';
 import Sidebar from './Sidebar'
 import Chat from './Chat'
@@ -7,7 +7,7 @@ import Pusher from 'pusher-js'
 import axios from './axios'
 
 function App() {
-  const[messages, setMessages] = useState([])
+  const[messages, setMessages] = useState([]);
 
   useEffect (() => {
     axios.get('/messages/sync')
@@ -72,28 +72,29 @@ function App() {
   //console.log(messages);
 
   return (
-    <div className="app">
-      <div className='app__body'>
-        <Router>
-          <Switch>
-            <Route path="/"> 
-              <Sidebar rooms={rooms} />
-              <Chat messages={messages}/>
-            </Route>
+      <div className="app">
+        <div className='app__body'>
+          <Router>
+            <Switch>
+              <Route path="/" > 
+                <Sidebar rooms={rooms} />
+                <Chat messages={messages}/>
+                <h1>home</h1>
+              </Route>
 
-            <Route path="/rooms/:roomId" >
-              <Sidebar rooms={rooms} /> 
-              <Chat messages={messages}/>
-            </Route>
+              <Route path="/rooms/:roomId" >
+                <Sidebar rooms={rooms} /> 
+                <Chat messages={messages}/>
+              </Route>
 
-            <Route path='/login'>
-              <h1>Please Login</h1>
-            </Route>  
+              <Route path='/login'>
+                <h1>Please Login</h1>
+              </Route>  
 
-          </Switch>
-        </Router>
+            </Switch>
+          </Router>
+        </div>
       </div>
-    </div>
   );
 }
 
