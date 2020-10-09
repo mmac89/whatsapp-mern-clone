@@ -3,10 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './App.css';
 import Sidebar from './Sidebar'
 import Chat from './Chat'
+import Login from './Login'
 import Pusher from 'pusher-js'
 import axios from './axios'
 
 function App() {
+
+  const [user, setUSer] = useState(null);
   const[messages, setMessages] = useState([]);
 
   useEffect (() => {
@@ -71,7 +74,10 @@ function App() {
   //console.log(messages);
 
   return (
-      <div className="app">
+    <div className="app">
+      {!user ? (
+        <Login />
+      ): (
         <div className='app__body'>
           <Router>
             <Switch>
@@ -80,10 +86,6 @@ function App() {
                 <Sidebar rooms={rooms} /> 
                 <Chat messages={messages}/>
               </Route>
-
-              <Route path='/login'>
-                <h1>Please Login</h1>
-              </Route> 
 
               <Route path="/" > 
                 <Sidebar rooms={rooms} />
@@ -94,6 +96,7 @@ function App() {
             </Switch>
           </Router>
         </div>
+      )}
       </div>
   );
 }
