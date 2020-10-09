@@ -30,8 +30,7 @@ function App() {
     });
 
     return ()=>{
-      channel.unbind_all();
-      channel.unsubscribe();
+     
     }
     
   }, [messages])
@@ -76,11 +75,6 @@ function App() {
         <div className='app__body'>
           <Router>
             <Switch>
-              <Route path="/" > 
-                <Sidebar rooms={rooms} />
-                <Chat messages={messages}/>
-                <h1>home</h1>
-              </Route>
 
               <Route path="/rooms/:roomId" >
                 <Sidebar rooms={rooms} /> 
@@ -89,7 +83,13 @@ function App() {
 
               <Route path='/login'>
                 <h1>Please Login</h1>
-              </Route>  
+              </Route> 
+
+              <Route path="/" > 
+                <Sidebar rooms={rooms} />
+                {/* <Chat messages={messages}/> */}
+                <h1>home</h1>
+              </Route> 
 
             </Switch>
           </Router>

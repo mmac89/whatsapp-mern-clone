@@ -16,7 +16,6 @@ function Chat( { messages } ) {
     const [roomName, setRoomName] = useState('');
 
     const {roomId } =useParams();
-    console.log(roomId);
 
 
 
@@ -43,6 +42,7 @@ function Chat( { messages } ) {
 
     useEffect( () => {
 
+
         axios.get(`/getRoomName/${roomId}`)
         .then(response => {
             console.log(response);
@@ -50,6 +50,8 @@ function Chat( { messages } ) {
         }).catch(() => {
             alert('error retrieving data');
         })
+
+        setSeed(Math.floor(Math.random() *5000));
         
     }, [roomId])
 
