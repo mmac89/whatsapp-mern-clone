@@ -5,15 +5,17 @@ import React from 'react'
 // import { Link } from 'react-router-dom'
 import './Sidebar.css'
 import SidebarChat from './SidebarChat'
+import { useStateValue } from './StateProvider'
 
 
 function Sidebar( { rooms } ) {
 
+    const [{ user }, dispatch ] = useStateValue();
 
     return (
         <div className='sidebar'>
             <div className='sidebar__header'>
-                <Avatar />
+                <Avatar  src={user?.photoURL } />
                 <div className='sidebar__headerRight'>
                     <IconButton >
                         <DonutLarge />
