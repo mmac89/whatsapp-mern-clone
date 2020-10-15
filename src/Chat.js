@@ -5,6 +5,7 @@ import { Avatar, IconButton } from '@material-ui/core'
 import { AttachFile, MoreVert, SearchOutlined} from '@material-ui/icons'
 import InsertEmoticonIcon  from '@material-ui/icons/InsertEmoticon'
 import MicIcon from '@material-ui/icons/Mic'
+import Pusher from 'pusher-js'
 import axios from './axios'
 import { useParams } from 'react-router-dom';
 
@@ -14,10 +15,31 @@ function Chat( { messages } ) {
     const [input, setInput] = useState('');
    
     const [roomName, setRoomName] = useState('');
+    const [ setMessages] = useState('');
 
     const {roomId } =useParams();
 
+   let [roomMessage]=useState('')
 
+
+
+  useEffect( () => {
+    
+    const pusher = new Pusher('119fa00b5b664f824337', {
+      cluster: 'us3'
+    });
+
+    const channel = pusher.subscribe('messages');
+    channel.bind('inserted', (newMessage) => {
+      //alert(JSON.stringify(newMessage));
+      setMessages([...messages, newMessage]);
+    });
+
+    return ()=>{
+     
+    }
+    
+  }, [messages])
 
 
     const sendMessage = async (e) => {
@@ -28,6 +50,7 @@ function Chat( { messages } ) {
             name: 'Demo App',
             timestamp: 'just now',
             received: false,
+            roomId: roomId,
         });
 
         setInput('');
@@ -45,7 +68,6 @@ function Chat( { messages } ) {
 
         axios.get(`/getRoomName/${roomId}`)
         .then(response => {
-            console.log(response);
             setRoomName(response.data);
         }).catch(() => {
             alert('error retrieving data');
@@ -53,7 +75,18 @@ function Chat( { messages } ) {
 
         
     }, [roomId])
-
+   
+    useEffect(() => {
+        roomMessage= messages.map( (message) =>{
+            if(message.roomId === roomId) {
+                roomMessage+=message;
+                return roomMessage;
+            }
+            })
+            console.log(roomMessage);
+      
+    }, [])
+    
 
     return (
         <div className='chat'>
@@ -77,7 +110,7 @@ function Chat( { messages } ) {
                 </div>
 
             </div>
-            <div className='chat__body' >
+            <div className='chat__body' >               
                 {messages.map((message) => (
                     <p className={`chat__message ${message.received && 'chat__receiver'} `}>
                         <span className='chat__name'> 
