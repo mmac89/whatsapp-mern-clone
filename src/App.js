@@ -14,13 +14,13 @@ function App() {
 
   const[messages, setMessages] = useState([]);
 
-  useEffect (() => {
-    axios.get('/messages/sync')
-    .then(response => {
+  // useEffect (() => {
+  //   axios.get('/messages/sync')
+  //   .then(response => {
       
-      setMessages(response.data);
-    })
-  }, [])
+  //     setMessages(response.data);
+  //   })
+  // }, [])
 
   useEffect( () => {
     
@@ -86,7 +86,8 @@ function App() {
 
               <Route path="/rooms/:roomId" >
                 <Sidebar rooms={rooms} /> 
-                <Chat messages={messages}/>
+                <Chat />
+                {/* messages={messages} */}
               </Route>
 
               <Route path="/" > 

@@ -10,12 +10,12 @@ import axios from './axios'
 import { useParams } from 'react-router-dom';
 
 
-function Chat( { messages } ) {
+function Chat(  ) {
 
     const [input, setInput] = useState('');
    
     const [roomName, setRoomName] = useState('');
-    const [ setMessages] = useState('');
+    const [messages, setMessages] = useState([]);
 
     const {roomId } =useParams();
 
@@ -68,24 +68,38 @@ function Chat( { messages } ) {
 
         axios.get(`/getRoomName/${roomId}`)
         .then(response => {
-            setRoomName(response.data);
+            const room = response.data;
+            console.log(room);
+            setRoomName(room.roomName);
+
+            setMessages(room.roomMessages);
+            
         }).catch(() => {
             alert('error retrieving data');
         })
 
         
     }, [roomId])
+
+    
+  useEffect (() => {
+    axios.get(`/messages/${roomId}/sync`)
+    .then(response => {
+      console.log(response.data)
+      setMessages(response.data);
+    })
+  }, [])
    
-    useEffect(() => {
-        roomMessage= messages.map( (message) =>{
-            if(message.roomId === roomId) {
-                roomMessage+=message;
-                return roomMessage;
-            }
-            })
-            console.log(roomMessage);
+    // useEffect(() => {
+    //     roomMessage= messages.map( (message) =>{
+    //         if(message.roomId === roomId) {
+    //             roomMessage+=message;
+    //             return roomMessage;
+    //         }
+    //         })
+    //         console.log(roomMessage);
       
-    }, [])
+    // }, [])
     
 
     return (
