@@ -133,7 +133,7 @@ function Chat(  ) {
                         </span>
                         {message.message}
                         <span className='chat__timestamp'>   
-                            {message.timestamp.toLocaleTimeString()}
+                            {message.timestamp}
                         </span>
                     </p>
                 ))}
