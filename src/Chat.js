@@ -16,7 +16,7 @@ function Chat(  ) {
    
     const [roomName, setRoomName] = useState('');
     const [messages, setMessages] = useState([]);
-
+    const [user] = useState('');
     const {roomId } =useParams();
 
    let [roomMessage]=useState('')
@@ -45,10 +45,11 @@ function Chat(  ) {
     const sendMessage = async (e) => {
         e.preventDefault();
 
-        await axios.post('/messages/new', {
+        let date = new Date();
+        await axios.post(`/messages/${roomId}/new`, {
             message: input,
-            name: 'Demo App',
-            timestamp: 'just now',
+            name: user.displayName,
+            timestamp: date,
             received: false,
             roomId: roomId,
         });
@@ -132,7 +133,7 @@ function Chat(  ) {
                         </span>
                         {message.message}
                         <span className='chat__timestamp'>   
-                            {message.timestamp}
+                            {message.timestamp.toLocaleTimeString()}
                         </span>
                     </p>
                 ))}
