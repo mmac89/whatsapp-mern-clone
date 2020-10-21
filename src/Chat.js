@@ -19,7 +19,9 @@ function Chat(  ) {
     const [user] = useState('');
     const {roomId } =useParams();
 
-   let [roomMessage]=useState('')
+   let [roomMessage]=useState('');
+   const[rooms, setRooms] = useState([]);
+
 
 
 
@@ -29,17 +31,17 @@ function Chat(  ) {
       cluster: 'us3'
     });
 
-    const channel = pusher.subscribe('messages');
-    channel.bind('inserted', (newMessage) => {
-      //alert(JSON.stringify(newMessage));
-      setMessages([...messages, newMessage]);
+    const channel = pusher.subscribe('rooms');
+    channel.bind('updated', (newMessage) => {
+      setRooms([...rooms, newMessage]);
     });
 
     return ()=>{
-     
+        channel.unbind_all();
+        channel.unsubscribe();
     }
     
-  }, [messages])
+  }, [rooms])
 
 
     const sendMessage = async (e) => {
