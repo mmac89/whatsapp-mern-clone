@@ -32,8 +32,8 @@ function Chat(  ) {
     });
 
     const channel = pusher.subscribe('rooms');
-    channel.bind('updated', (newMessage) => {
-      setRooms([...rooms, newMessage]);
+    channel.bind('updated', (updatedRoom) => {
+      setRooms([...rooms, updatedRoom]);
     });
 
     return ()=>{
