@@ -19,9 +19,27 @@ function Chat(  ) {
     const [user] = useState('');
     const {roomId } =useParams();
 
-   let [roomMessage]=useState('');
+//    let [roomMessages, setRoomMessages]=useState([]);
    const[rooms, setRooms] = useState([]);
 
+    
+   useEffect( () => {
+
+
+    axios.get(`/getRoomName/${roomId}`)
+    .then(response => {
+        const room = response.data;
+        console.log(room);
+        setRoomName(room.roomName);
+
+        setMessages(room.roomMessages);
+        
+    }).catch(() => {
+        alert('error retrieving data');
+    })
+
+    
+}, [roomId])
 
 
 
@@ -31,9 +49,11 @@ function Chat(  ) {
       cluster: 'us3'
     });
 
-    const channel = pusher.subscribe('rooms');
-    channel.bind('updated', (updatedRoom) => {
-      setRooms([...rooms, updatedRoom]);
+    const channel = pusher.subscribe('messages');
+    channel.bind('updated', (newMessage) => {
+        console.log(JSON.stringify(newMessage));
+      setMessages([...messages, newMessage]);
+
     });
 
     return ()=>{
@@ -41,7 +61,7 @@ function Chat(  ) {
         channel.unsubscribe();
     }
     
-  }, [rooms])
+  }, [])
 
 
     const sendMessage = async (e) => {
@@ -65,24 +85,6 @@ function Chat(  ) {
     useEffect(() => {
         setSeed(Math.floor(Math.random() *5000)) 
     }, [])
-
-    useEffect( () => {
-
-
-        axios.get(`/getRoomName/${roomId}`)
-        .then(response => {
-            const room = response.data;
-            console.log(room);
-            setRoomName(room.roomName);
-
-            setMessages(room.roomMessages);
-            
-        }).catch(() => {
-            alert('error retrieving data');
-        })
-
-        
-    }, [roomId])
 
     
   useEffect (() => {

@@ -22,23 +22,23 @@ function App() {
   //   })
   // }, [])
 
-  useEffect( () => {
+  // useEffect( () => {
     
-    const pusher = new Pusher('119fa00b5b664f824337', {
-      cluster: 'us3'
-    });
+    // const pusher = new Pusher('119fa00b5b664f824337', {
+    //   cluster: 'us3'
+    // });
 
-    const channel = pusher.subscribe('messages');
-    channel.bind('inserted', (newMessage) => {
-      //alert(JSON.stringify(newMessage));
-      setMessages([...messages, newMessage]);
-    });
+    // const channel = pusher.subscribe('messages');
+    // channel.bind('inserted', (newMessage) => {
+    //   //alert(JSON.stringify(newMessage));
+    //   setMessages([...messages, newMessage]);
+    // });
 
-    return ()=>{
+  //   return ()=>{
      
-    }
+  //   }
     
-  }, [messages])
+  // }, [messages])
 
   const[rooms, setRooms] = useState([]);
 
@@ -102,6 +102,5 @@ function App() {
       )}
       </div>
   );
-}
-
-export default App;
+};
+export default App
