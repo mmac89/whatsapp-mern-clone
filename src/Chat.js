@@ -13,56 +13,46 @@ import { useParams } from 'react-router-dom';
 function Chat(  ) {
 
     const [input, setInput] = useState('');
-   
     const [roomName, setRoomName] = useState('');
     const [messages, setMessages] = useState([]);
     const [user] = useState('');
     const {roomId } =useParams();
 
-//    let [roomMessages, setRoomMessages]=useState([]);
-   const[rooms, setRooms] = useState([]);
+    
+    const [seed, setSeed] =useState('');
+    useEffect(() => {
+        setSeed(Math.floor(Math.random() *5000)) 
+    }, [])
+
+
+    //let [roomMessages, setRoomMessages]=useState([]);
+    // const[rooms, setRooms] = useState([]);
 
     
-   useEffect( () => {
+    useEffect( () => {
 
+        axios.get(`/getRoomName/${roomId}`)
+        .then(response => {
+            const room = response.data;
+            console.log(room);
+            setRoomName(room.roomName);
 
-    axios.get(`/getRoomName/${roomId}`)
-    .then(response => {
-        const room = response.data;
-        console.log(room);
-        setRoomName(room.roomName);
-
-        setMessages(room.roomMessages);
+            setMessages(room.roomMessages);
+            
+        }).catch(() => {
+            alert('error retrieving data');
+        });
         
-    }).catch(() => {
-        alert('error retrieving data');
-    })
+    }, [roomId])
 
     
-}, [roomId])
-
-
-
-  useEffect( () => {
-    
-    const pusher = new Pusher('119fa00b5b664f824337', {
-      cluster: 'us3'
-    });
-
-    const channel = pusher.subscribe('messages');
-    channel.bind('updated', (newMessage) => {
-        console.log(JSON.stringify(newMessage));
-      setMessages([...messages, newMessage]);
-
-    });
-
-    return ()=>{
-        channel.unbind_all();
-        channel.unsubscribe();
-    }
-    
-  }, [])
-
+    // useEffect (() => {
+    //     axios.get(`/messages/${roomId}/sync`)
+    //     .then(response => {
+    //     console.log(response.data)
+    //     setMessages(response.data);
+    // })
+    // }, [])
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -79,22 +69,28 @@ function Chat(  ) {
         setInput('');
     }
 
-    
-    
-    const [seed, setSeed] =useState('');
-    useEffect(() => {
-        setSeed(Math.floor(Math.random() *5000)) 
-    }, [])
 
+    useEffect( () => {
     
-  useEffect (() => {
-    axios.get(`/messages/${roomId}/sync`)
-    .then(response => {
-      console.log(response.data)
-      setMessages(response.data);
-    })
-  }, [])
-   
+        const pusher = new Pusher('119fa00b5b664f824337', {
+        cluster: 'us3'
+        });
+
+        const channel = pusher.subscribe('rooms');
+        channel.bind('updated', (message) => {
+            console.log(message.roomMessages[message.roomMessages.length-1]);
+            const newMessage= message.roomMessages[message.roomMessages.length-1]
+            setMessages([...messages, newMessage]);
+        });
+
+        return ()=>{
+            channel.unbind_all();
+            channel.unsubscribe();
+        }
+    
+    }, [messages])
+
+
     // useEffect(() => {
     //     roomMessage= messages.map( (message) =>{
     //         if(message.roomId === roomId) {
