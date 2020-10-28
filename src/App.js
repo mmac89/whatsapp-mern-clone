@@ -1,104 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import './App.css';
-import Sidebar from './Sidebar'
-import Chat from './Chat'
-import Login from './Login'
-import Pusher from 'pusher-js'
-import axios from './axios'
-import { useStateValue } from './StateProvider'
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
+import Sidebar from "./Sidebar";
+import Chat from "./Chat";
+import Login from "./Login";
+import Pusher from "pusher-js";
+import axios from "./axios";
+import { useStateValue } from "./StateProvider";
 
 function App() {
-
   const [{ user }] = useStateValue();
+  const [rooms, setRooms] = useState([]);
 
-  // const[messages, setMessages] = useState([]);
-
-  // useEffect (() => {
-  //   axios.get('/messages/sync')
-  //   .then(response => {
-      
-  //     setMessages(response.data);
-  //   })
-  // }, [])
-
-  // useEffect( () => {
-    
-    // const pusher = new Pusher('119fa00b5b664f824337', {
-    //   cluster: 'us3'
-    // });
-
-    // const channel = pusher.subscribe('messages');
-    // channel.bind('inserted', (newMessage) => {
-    //   //alert(JSON.stringify(newMessage));
-    //   setMessages([...messages, newMessage]);
-    // });
-
-  //   return ()=>{
-     
-  //   }
-    
-  // }, [messages])
-
-  const[rooms, setRooms] = useState([]);
-
-  useEffect (() => {
-    axios.get('/rooms/sync')
-    .then(response => {
-      
+  useEffect(() => {
+    axios.get("/rooms/sync").then((response) => {
       setRooms(response.data);
-    
-    })
-  }, [])
+    });
+  }, []);
 
-
-  useEffect( () => {
-    
-    const pusher = new Pusher('119fa00b5b664f824337', {
-      cluster: 'us3'
+  useEffect(() => {
+    const pusher = new Pusher("119fa00b5b664f824337", {
+      cluster: "us3",
     });
 
-    const channel = pusher.subscribe('rooms');
-    channel.bind('inserted', (newRoom) => {
-      //alert(JSON.stringify(newMessage));
+    const channel = pusher.subscribe("rooms");
+    channel.bind("inserted", (newRoom) => {
+      console.log("--------> " + newRoom._id);
       setRooms([...rooms, newRoom]);
+      axios.get("/rooms/sync").then((response) => {
+        setRooms(response.data);
+      });
     });
 
-    return ()=>{
+    return () => {
       channel.unbind_all();
       channel.unsubscribe();
-    }
-    
-  }, [rooms])
-
-  //console.log(messages);
+    };
+  }, [rooms]);
 
   return (
     <div className="app">
       {!user ? (
         <Login />
-      ): (
-        <div className='app__body'>
+      ) : (
+        <div className="app__body">
           <Router>
             <Switch>
-
-              <Route path="/rooms/:roomId" >
-                <Sidebar rooms={rooms} /> 
-                <Chat user={user}/>
-                {/* messages={messages} */}
+              <Route path="/rooms/:roomId">
+                <Sidebar rooms={rooms} />
+                <Chat user={user} />
               </Route>
 
-              <Route path="/" > 
+              <Route path="/">
                 <Sidebar rooms={rooms} />
-                {/* <Chat messages={messages}/> */}
-                <h1>home</h1>
-              </Route> 
-
+                <h1>Please select a room...</h1>
+              </Route>
             </Switch>
           </Router>
         </div>
       )}
-      </div>
+    </div>
   );
-};
-export default App
+}
+export default App;

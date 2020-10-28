@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Chat.css";
-
 import { Avatar, IconButton } from "@material-ui/core";
 import { AttachFile, MoreVert, SearchOutlined } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
@@ -14,7 +13,6 @@ function Chat({ user }) {
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
-
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
@@ -22,10 +20,9 @@ function Chat({ user }) {
       .get(`/getRoomName/${roomId}`)
       .then((response) => {
         const room = response.data;
-        console.log(room);
+        // console.log(room);
         setRoomName(room.roomName);
         setSeed(Math.floor(Math.random() * 5000));
-
         setMessages(room.roomMessages);
       })
       .catch(() => {
@@ -68,17 +65,6 @@ function Chat({ user }) {
       channel.unsubscribe();
     };
   }, [messages]);
-
-  // useEffect(() => {
-  //     roomMessage= messages.map( (message) =>{
-  //         if(message.roomId === roomId) {
-  //             roomMessage+=message;
-  //             return roomMessage;
-  //         }
-  //         })
-  //         console.log(roomMessage);
-
-  // }, [])
 
   return (
     <div className="chat">
