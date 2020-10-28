@@ -8,14 +8,14 @@ import MicIcon from '@material-ui/icons/Mic'
 import Pusher from 'pusher-js'
 import axios from './axios'
 import { useParams } from 'react-router-dom';
+import { useStateValue } from './StateProvider'
 
 
-function Chat(  ) {
+function Chat( {user} ) {
 
     const [input, setInput] = useState('');
     const [roomName, setRoomName] = useState('');
     const [messages, setMessages] = useState([]);
-    const [user] = useState('');
     const {roomId } =useParams();
 
     
@@ -57,12 +57,13 @@ function Chat(  ) {
     const sendMessage = async (e) => {
         e.preventDefault();
 
+        let name = user.displayName;
         let date = new Date();
         await axios.post(`/messages/${roomId}/new`, {
             message: input,
-            name: user.displayName,
+            name: name,
             timestamp: date,
-            received: false,
+            received: true,
             roomId: roomId,
         });
 
@@ -78,9 +79,11 @@ function Chat(  ) {
 
         const channel = pusher.subscribe('rooms');
         channel.bind('updated', (message) => {
-            console.log(message.roomMessages[message.roomMessages.length-1]);
+            // console.log(message.roomMessages[message.roomMessages.length-1]);
             const newMessage= message.roomMessages[message.roomMessages.length-1]
             setMessages([...messages, newMessage]);
+
+            console.log(messages);
         });
 
         return ()=>{
@@ -127,7 +130,7 @@ function Chat(  ) {
             </div>
             <div className='chat__body' >               
                 {messages.map((message) => (
-                    <p className={`chat__message ${message.received && 'chat__receiver'} `}>
+                    <p className={`chat__message ${message.received && 'chat__sender'} `}>
                         <span className='chat__name'> 
                             {message.name}
                         </span>

@@ -10,9 +10,9 @@ import { useStateValue } from './StateProvider'
 
 function App() {
 
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
 
-  const[messages, setMessages] = useState([]);
+  // const[messages, setMessages] = useState([]);
 
   // useEffect (() => {
   //   axios.get('/messages/sync')
@@ -71,8 +71,6 @@ function App() {
     
   }, [rooms])
 
-  
-  
   //console.log(messages);
 
   return (
@@ -86,7 +84,7 @@ function App() {
 
               <Route path="/rooms/:roomId" >
                 <Sidebar rooms={rooms} /> 
-                <Chat />
+                <Chat user={user}/>
                 {/* messages={messages} */}
               </Route>
 
