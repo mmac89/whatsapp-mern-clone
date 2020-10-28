@@ -32,9 +32,9 @@ function Chat({ user }) {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-
     let name = user.displayName;
     let date = new Date();
+    date = date.toLocaleTimeString();
     await axios.post(`/messages/${roomId}/new`, {
       message: input,
       name: name,
@@ -42,7 +42,6 @@ function Chat({ user }) {
       sent: true,
       roomId: roomId,
     });
-
     setInput("");
   };
 
