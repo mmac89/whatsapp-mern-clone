@@ -5,8 +5,6 @@ import { Avatar } from "@material-ui/core";
 import axios from "./axios";
 
 function SidebarChat({ addNewChat, room, roomId }) {
-  const roomClicked = () => {};
-
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
@@ -27,9 +25,9 @@ function SidebarChat({ addNewChat, room, roomId }) {
     <Link to={`/rooms/${roomId}`}>
       <div className="sidebarChat">
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-        <div className="sidebarChat__info" onClick={roomClicked}>
+        <div className="sidebarChat__info">
           <h2>{room.roomName}</h2>
-          <p>the last message...</p>
+          <p>lastMessage</p>
         </div>
       </div>
     </Link>

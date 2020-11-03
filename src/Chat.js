@@ -34,7 +34,7 @@ function Chat({ user }) {
     e.preventDefault();
     let name = user.displayName;
     let date = new Date();
-    date = date.toLocaleTimeString();
+    date = date.toLocaleString();
     await axios.post(`/messages/${roomId}/new`, {
       message: input,
       name: name,
@@ -71,7 +71,12 @@ function Chat({ user }) {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="chat__headerInfo">
           <h3>{roomName}</h3>
-          <p>Last seen at ...</p>
+          <p>
+            Last seen{" "}
+            {new Date(
+              messages[messages.length - 1]?.timestamp
+            )?.toLocaleString()}
+          </p>
         </div>
 
         <div className="chat__headerRight">
