@@ -33,14 +33,14 @@ function SidebarChat({ addNewChat, room, roomId }) {
     const channel = pusher.subscribe("rooms");
     channel.bind("updated", (message) => {
       //   console.log(message);
-      // console.log(message.roomMessages[message.roomMessages.length-1]);
+      //   lastMessage = message.roomMessages[message.roomMessages.length - 1];
       setLastMessage(message.roomMessages[message.roomMessages.length - 1]);
 
       //   console.log(lastMessage);
     });
   }, [lastMessage]);
 
-  //   console.log(lastMessage.message);
+  console.log(lastMessage);
 
   return !addNewChat ? (
     <Link to={`/rooms/${roomId}`}>
