@@ -38,6 +38,7 @@ function App() {
     };
   }, [rooms]);
 
+  // console.log(rooms);
   return (
     <div className="app">
       {!user ? (

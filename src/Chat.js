@@ -56,7 +56,7 @@ function Chat({ user }) {
       const newMessage = message.roomMessages[message.roomMessages.length - 1];
       setMessages([...messages, newMessage]);
 
-      console.log(messages);
+      //   console.log(messages);
     });
 
     return () => {
@@ -93,7 +93,10 @@ function Chat({ user }) {
       </div>
       <div className="chat__body">
         {messages.map((message) => (
-          <p className={`chat__message ${message.sent && "chat__sender"} `}>
+          <p
+            className={`chat__message ${message.sent && "chat__sender"} `}
+            key={message.timestamp}
+          >
             <span className="chat__name">{message.name}</span>
             {message.message}
             <span className="chat__timestamp">{message.timestamp}</span>
