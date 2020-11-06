@@ -1,13 +1,13 @@
 import { Avatar, IconButton } from "@material-ui/core";
 import { Chat, DonutLarge, MoreVert } from "@material-ui/icons";
 import { SearchOutlined } from "@material-ui/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import "./Sidebar.css";
 import SidebarChat from "./SidebarChat";
 import { useStateValue } from "./StateProvider";
 
 function Sidebar({ rooms }) {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
 
   console.log(rooms);
 

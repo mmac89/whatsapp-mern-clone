@@ -5,20 +5,34 @@ import Pusher from "pusher-js";
 
 function SidebarRooms({ room, roomId }) {
   const [seed, setSeed] = useState("");
+  const [lastMessage, setLastMessage] = useState(room.roomMessages);
+  let isLastMessage;
+  if (lastMessage.length === 0) {
+    isLastMessage = "";
+  } else {
+    isLastMessage = lastMessage[lastMessage.length - 1].message;
+  }
+
+  //   let newMessage;
+  //   if (lastMessage) {
+  //     newMessage = lastMessage.message;
+  //   } else {
+  //     newMessage = "";
+  //   }
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
 
-  const [lastMessage, setLastMessage] = useState(
-    room.roomMessages[room.roomMessages.length - 1]
-  );
+  //   useEffect(() => {
+  //     const AreThereMessages =
+  //       room.roomMessages[room.roomMessages.length - 1].message;
+  //   }, []);
+
   useEffect(() => {
     const pusher = new Pusher("119fa00b5b664f824337", {
       cluster: "us3",
     });
-
-    // setLastMessage(room.roomMessages[room.roomMessages.length - 1].message);
 
     const channel = pusher.subscribe("rooms");
     channel.bind("updated", (message) => {
@@ -27,7 +41,12 @@ function SidebarRooms({ room, roomId }) {
       const messageId =
         message.roomMessages[message.roomMessages.length - 1].roomId;
       if (messageId === roomId) {
-        setLastMessage(message.roomMessages[message.roomMessages.length - 1]);
+        setLastMessage(message.roomMessages);
+        if (lastMessage.length > 0) {
+          isLastMessage = lastMessage[lastMessage.length - 1].message;
+        } else {
+          isLastMessage = "";
+        }
       }
 
       //   console.log(roomId);
@@ -35,15 +54,20 @@ function SidebarRooms({ room, roomId }) {
 
       //   console.log(lastMessage.roomId);
     });
-  }, [lastMessage, roomId]);
 
-  console.log(lastMessage);
+    channel.bind("inserted", (newRoom) => {
+      if (newRoom._id === roomId) {
+        isLastMessage = "";
+      }
+    });
+  }, [lastMessage, roomId, isLastMessage]);
+
   return (
     <div className="sidebarChat">
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
       <div className="sidebarChat__info">
         <h2>{room.roomName}</h2>
-        <p>{lastMessage.message}</p>
+        <p>{isLastMessage}</p>
       </div>
     </div>
   );

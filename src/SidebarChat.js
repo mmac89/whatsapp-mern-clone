@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./SidebarChat.css";
 import SidebarRooms from "./SidebarRooms";
@@ -6,13 +6,11 @@ import axios from "./axios";
 // import Pusher from "pusher-js";
 
 function SidebarChat({ addNewChat, room, roomId }) {
-  const [seed, setSeed] = useState("");
+  // const [seed, setSeed] = useState("");
 
-  useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000));
-  }, []);
-
-  console.log(room);
+  // useEffect(() => {
+  //   setSeed(Math.floor(Math.random() * 5000));
+  // }, []);
 
   const createChat = async () => {
     const roomName = prompt("Please enter a name for the chat");
