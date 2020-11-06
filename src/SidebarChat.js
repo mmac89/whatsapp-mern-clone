@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./SidebarChat.css";
-import { Avatar } from "@material-ui/core";
+import SidebarRooms from "./SidebarRooms";
 import axios from "./axios";
-import Pusher from "pusher-js";
+// import Pusher from "pusher-js";
 
 function SidebarChat({ addNewChat, room, roomId }) {
   const [seed, setSeed] = useState("");
@@ -24,33 +24,27 @@ function SidebarChat({ addNewChat, room, roomId }) {
     }
   };
 
-  const [lastMessage, setLastMessage] = useState("");
-  useEffect(() => {
-    const pusher = new Pusher("119fa00b5b664f824337", {
-      cluster: "us3",
-    });
+  // const [lastMessage, setLastMessage] = useState("");
+  // useEffect(() => {
+  //   const pusher = new Pusher("119fa00b5b664f824337", {
+  //     cluster: "us3",
+  //   });
 
-    const channel = pusher.subscribe("rooms");
-    channel.bind("updated", (message) => {
-      //   console.log(message);
-      //   lastMessage = message.roomMessages[message.roomMessages.length - 1];
-      setLastMessage(message.roomMessages[message.roomMessages.length - 1]);
+  //   const channel = pusher.subscribe("rooms");
+  //   channel.bind("updated", (message) => {
+  //     //   console.log(message);
+  //     //   lastMessage = message.roomMessages[message.roomMessages.length - 1];
+  //     setLastMessage(message.roomMessages[message.roomMessages.length - 1]);
 
-      //   console.log(lastMessage);
-    });
-  }, [lastMessage]);
+  //     //   console.log(lastMessage);
+  //   });
+  // }, [lastMessage]);
 
-  console.log(lastMessage);
+  // console.log(lastMessage);
 
   return !addNewChat ? (
     <Link to={`/rooms/${roomId}`}>
-      <div className="sidebarChat">
-        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-        <div className="sidebarChat__info">
-          <h2>{room.roomName}</h2>
-          <p>{lastMessage.message}</p>
-        </div>
-      </div>
+      <SidebarRooms room={room} roomId={roomId} />
     </Link>
   ) : (
     <div onClick={createChat} className="sidebarChat">
