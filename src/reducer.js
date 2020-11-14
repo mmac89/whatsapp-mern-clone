@@ -1,11 +1,13 @@
 export const initialState = {
   user: null,
+  token: null,
   //   rooms: null,
 };
 
 export const actionTypes = {
   SET_USER: "SET_USER",
   //   SET_ROOMS: "SET_ROOMS",
+  SET_TOKEN: "SET_TOKEN",
 };
 
 const reducer = (state, action) => {
@@ -16,11 +18,11 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
-    // case actionTypes.SET_ROOMS:
-    //   return {
-    //     ...state,
-    //     rooms: action.rooms,
-    //   };
+    case actionTypes.SET_TOKEN:
+      return {
+        ...state,
+        token: action.token,
+      };
     default:
       return state;
   }
