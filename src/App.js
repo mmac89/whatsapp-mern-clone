@@ -9,7 +9,7 @@ import axios from "./axios";
 import { useStateValue } from "./StateProvider";
 
 function App() {
-  const [{ user }] = useStateValue();
+  const [{ user, token }] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
@@ -17,6 +17,8 @@ function App() {
       setRooms(response.data);
     });
   }, []);
+
+  console.log(token);
 
   useEffect(() => {
     const pusher = new Pusher("119fa00b5b664f824337", {
