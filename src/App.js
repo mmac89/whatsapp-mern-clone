@@ -12,6 +12,8 @@ function App() {
   const [{ user, token }] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
       setRooms(response.data);
@@ -43,7 +45,7 @@ function App() {
   // console.log(rooms);
   return (
     <div className="app">
-      {!user ? (
+      {!token ? (
         <Login />
       ) : (
         <div className="app__body">

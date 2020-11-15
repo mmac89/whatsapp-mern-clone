@@ -12,18 +12,22 @@ function Login() {
     auth
       .signInWithPopup(provider)
       .then((result) => {
-        dispatch(
-          {
-            type: actionTypes.SET_USER,
-            user: result.user,
-          },
-          {
-            type: actionTypes.SET_TOKEN,
-            token: result.credential.accessToken,
-          }
-        );
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: result.user,
+        });
+        dispatch({
+          type: actionTypes.SET_TOKEN,
+          token: result.credential.accessToken,
+        });
       })
       .catch((error) => alert(error.message));
+
+    auth.onAuthStateChanged((user) => {
+      user
+        ? localStorage.setItem("user", JSON.stringify(user))
+        : localStorage.removeItem("user");
+    });
   };
   return (
     <div className="login">
