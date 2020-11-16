@@ -9,18 +9,16 @@ import axios from "./axios";
 import { useStateValue } from "./StateProvider";
 
 function App() {
-  const [{ user, token }] = useStateValue();
+  const [{ user }] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
-  useEffect(() => {}, []);
+  const isLoggedIn = localStorage.getItem("token");
 
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
       setRooms(response.data);
     });
   }, []);
-
-  console.log(token);
 
   useEffect(() => {
     const pusher = new Pusher("119fa00b5b664f824337", {
@@ -45,19 +43,17 @@ function App() {
   // console.log(rooms);
   return (
     <div className="app">
-      {!token ? (
+      {!user && !isLoggedIn ? (
         <Login />
       ) : (
         <div className="app__body">
           <Router>
+            <Sidebar rooms={rooms} />
             <Switch>
               <Route path="/rooms/:roomId">
-                <Sidebar rooms={rooms} />
                 <Chat user={user} />
               </Route>
-
               <Route path="/">
-                <Sidebar rooms={rooms} />
                 <h1>Please select a room...</h1>
               </Route>
             </Switch>

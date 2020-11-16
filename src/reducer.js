@@ -19,6 +19,7 @@ const reducer = (state, action) => {
         user: action.user,
       };
     case actionTypes.SET_TOKEN:
+      localStorage.setItem("token", action.token);
       return {
         ...state,
         token: action.token,
