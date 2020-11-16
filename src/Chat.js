@@ -7,13 +7,15 @@ import MicIcon from "@material-ui/icons/Mic";
 import Pusher from "pusher-js";
 import axios from "./axios";
 import { useParams } from "react-router-dom";
+import { useStateValue } from "./StateProvider";
 
-function Chat({ user }) {
+function Chat() {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [seed, setSeed] = useState("");
+  const [{ user }] = useStateValue();
 
   useEffect(() => {
     axios

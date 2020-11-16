@@ -14,13 +14,13 @@ const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
     case actionTypes.SET_USER:
-      localStorage.setItem("user", action.user);
+      sessionStorage.setItem("user", action.user);
       return {
         ...state,
         user: action.user,
       };
     case actionTypes.SET_TOKEN:
-      localStorage.setItem("token", action.token);
+      sessionStorage.setItem("token", action.token);
       return {
         ...state,
         token: action.token,

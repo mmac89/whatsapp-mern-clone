@@ -12,7 +12,7 @@ function App() {
   const [{ user }] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
-  const isLoggedIn = localStorage.getItem("token");
+  const isLoggedIn = sessionStorage.getItem("token");
 
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
@@ -51,7 +51,7 @@ function App() {
             <Sidebar rooms={rooms} />
             <Switch>
               <Route path="/rooms/:roomId">
-                <Chat user={user} />
+                <Chat />
               </Route>
               <Route path="/">
                 <h1>Please select a room...</h1>
