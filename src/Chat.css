@@ -34,6 +34,8 @@
   background-position: center;
   padding: 30px;
   overflow: scroll;
+  max-width: 65vw;
+  word-break: break-all;
 }
 
 .chat__body::-webkit-scrollbar {
@@ -42,9 +44,9 @@
 
 .chat__message {
   position: relative;
+  width: fit-content;
   font-size: 16px;
   padding: 10px;
-  max-width: 600px;
   border-radius: 10px;
   background-color: #ffffff;
   margin-bottom: 30px;

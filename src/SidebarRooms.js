@@ -11,6 +11,10 @@ function SidebarRooms({ room, roomId }) {
     isLastMessage = "";
   } else {
     isLastMessage = lastMessage[lastMessage.length - 1].message;
+    if (isLastMessage.length > 25) {
+      isLastMessage = isLastMessage.substr(0, 25);
+      isLastMessage = isLastMessage + " ...";
+    }
   }
 
   //   let newMessage;

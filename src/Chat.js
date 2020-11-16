@@ -93,19 +93,24 @@ function Chat({ user }) {
       </div>
       <div className="chat__body">
         {messages.map((message) => (
-          <p
-            className={`chat__message ${message.sent && "chat__sender"} `}
-            key={message.timestamp}
-          >
-            <span className="chat__name">{message.name}</span>
-            {message.message}
-            <span className="chat__timestamp">{message.timestamp}</span>
-          </p>
+          <div className="chat__messageContainer">
+            <p
+              className={`chat__message ${message.sent && "chat__sender"} `}
+              key={message.timestamp}
+            >
+              <span className="chat__name">{message.name}</span>
+              {message.message}
+              <span className="chat__timestamp">{message.timestamp}</span>
+            </p>
+          </div>
         ))}
       </div>
 
       <div className="chat__footer">
-        <InsertEmoticonIcon />
+        <IconButton>
+          <InsertEmoticonIcon />
+        </IconButton>
+        {/* {emoji ? <Picker onSelect={addEmoji} /> : null} */}
         <form>
           <input
             value={input}
