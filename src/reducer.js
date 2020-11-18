@@ -14,7 +14,7 @@ const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
     case actionTypes.SET_USER:
-      sessionStorage.setItem("user", action.user);
+      localStorage.setItem("user", action.user);
       return {
         ...state,
         user: action.user,

@@ -13,6 +13,9 @@ function App() {
   const [rooms, setRooms] = useState([]);
 
   const isLoggedIn = sessionStorage.getItem("token");
+  console.log(isLoggedIn);
+  const sessionUser = localStorage.getItem("user");
+  console.log(sessionUser);
 
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
