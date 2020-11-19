@@ -7,24 +7,24 @@ import MicIcon from "@material-ui/icons/Mic";
 import Pusher from "pusher-js";
 import axios from "./axios";
 import { useParams } from "react-router-dom";
-import { useStateValue } from "./StateProvider";
 
-function Chat({ user }) {
+function Chat() {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [seed, setSeed] = useState("");
   const displayName = localStorage.getItem("displayName");
-  // const [{ user }] = useStateValue();
 
-  // const user = localStorage.getItem("user");
+  const handleClick = () => {
+    alert("feature is under construction");
+  };
+
   useEffect(() => {
     axios
       .get(`/getRoomName/${roomId}`)
       .then((response) => {
         const room = response.data;
-        // console.log(room);
         setRoomName(room.roomName);
         setSeed(Math.floor(Math.random() * 5000));
         setMessages(room.roomMessages);
@@ -56,11 +56,8 @@ function Chat({ user }) {
 
     const channel = pusher.subscribe("rooms");
     channel.bind("updated", (message) => {
-      // console.log(message.roomMessages[message.roomMessages.length-1]);
       const newMessage = message.roomMessages[message.roomMessages.length - 1];
       setMessages([...messages, newMessage]);
-
-      //   console.log(messages);
     });
 
     return () => {
@@ -84,13 +81,13 @@ function Chat({ user }) {
         </div>
 
         <div className="chat__headerRight">
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <SearchOutlined />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <AttachFile />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <MoreVert />
           </IconButton>
         </div>
@@ -111,7 +108,7 @@ function Chat({ user }) {
       </div>
 
       <div className="chat__footer">
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <InsertEmoticonIcon />
         </IconButton>
         {/* {emoji ? <Picker onSelect={addEmoji} /> : null} */}
@@ -126,7 +123,9 @@ function Chat({ user }) {
             Send
           </button>
         </form>
-        <MicIcon />
+        <IconButton>
+          <MicIcon />
+        </IconButton>
       </div>
     </div>
   );

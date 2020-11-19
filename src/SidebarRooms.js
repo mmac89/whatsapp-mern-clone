@@ -17,21 +17,9 @@ function SidebarRooms({ room, roomId }) {
     }
   }
 
-  //   let newMessage;
-  //   if (lastMessage) {
-  //     newMessage = lastMessage.message;
-  //   } else {
-  //     newMessage = "";
-  //   }
-
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
-
-  //   useEffect(() => {
-  //     const AreThereMessages =
-  //       room.roomMessages[room.roomMessages.length - 1].message;
-  //   }, []);
 
   useEffect(() => {
     const pusher = new Pusher("119fa00b5b664f824337", {
@@ -40,8 +28,6 @@ function SidebarRooms({ room, roomId }) {
 
     const channel = pusher.subscribe("rooms");
     channel.bind("updated", (message) => {
-      //   console.log(message);
-      //   lastMessage = message.roomMessages[message.roomMessages.length - 1];
       const messageId =
         message.roomMessages[message.roomMessages.length - 1].roomId;
       if (messageId === roomId) {
@@ -52,11 +38,6 @@ function SidebarRooms({ room, roomId }) {
           isLastMessage = "";
         }
       }
-
-      //   console.log(roomId);
-      //   console.log(lastMessage.message);
-
-      //   console.log(lastMessage.roomId);
     });
 
     channel.bind("inserted", (newRoom) => {

@@ -15,7 +15,6 @@ function App() {
     localStorage.getItem("uid") !== undefined
       ? localStorage.getItem("uid")
       : null;
-  console.log(uid);
 
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
