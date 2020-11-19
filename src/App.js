@@ -11,11 +11,11 @@ import { useStateValue } from "./StateProvider";
 function App() {
   const [{ user }] = useStateValue();
   const [rooms, setRooms] = useState([]);
-
-  const isLoggedIn = sessionStorage.getItem("token");
-  console.log(isLoggedIn);
-  const sessionUser = localStorage.getItem("user");
-  console.log(sessionUser);
+  const uid =
+    localStorage.getItem("uid") !== undefined
+      ? localStorage.getItem("uid")
+      : null;
+  console.log(uid);
 
   useEffect(() => {
     axios.get("/rooms/sync").then((response) => {
@@ -43,10 +43,9 @@ function App() {
     };
   }, [rooms]);
 
-  // console.log(rooms);
   return (
     <div className="app">
-      {!user && !isLoggedIn ? (
+      {!user && !uid ? (
         <Login />
       ) : (
         <div className="app__body">
@@ -54,7 +53,7 @@ function App() {
             <Sidebar rooms={rooms} />
             <Switch>
               <Route path="/rooms/:roomId">
-                <Chat />
+                <Chat user={user} />
               </Route>
               <Route path="/">
                 <h1>Please select a room...</h1>

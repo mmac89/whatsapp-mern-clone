@@ -9,14 +9,16 @@ import axios from "./axios";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 
-function Chat() {
+function Chat({ user }) {
   const [input, setInput] = useState("");
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [seed, setSeed] = useState("");
-  const [{ user }] = useStateValue();
+  const displayName = localStorage.getItem("displayName");
+  // const [{ user }] = useStateValue();
 
+  // const user = localStorage.getItem("user");
   useEffect(() => {
     axios
       .get(`/getRoomName/${roomId}`)
@@ -34,7 +36,7 @@ function Chat() {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    let name = user.displayName;
+    let name = displayName;
     let date = new Date();
     date = date.toLocaleString();
     await axios.post(`/messages/${roomId}/new`, {
